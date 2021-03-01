@@ -39,25 +39,25 @@ A new option `--overlay-ports` will be added to the `vcpkg install`, `vcpkg upda
 From a user experience perspective, a user expresses interest in adding additional lookup locations by passing the `--overlay-ports` option followed by a path to:
 
 * an individual port (directory containing a `CONTROL` file),
-  * `vcpkg install sqlite3 --overlay-ports="C:\custom-ports\sqlite3"`
+    * `vcpkg install sqlite3 --overlay-ports="C:\custom-ports\sqlite3"`
 
 * a directory containing ports,
-  * `vcpkg install sqlite3 --overlay-ports=\\share\org\custom-ports`
+    * `vcpkg install sqlite3 --overlay-ports=\\share\org\custom-ports`
 
 * a file listing paths to the former two.
   > NOTE: Reading paths from a text file is not available in the current implementation, some revisions to this part of the specification are being made and will be implemented in a future date.
   
-  * `vcpkg install sqlite3 --overlay-ports=..\port-repos.txt`
-
-    _port-repos.txt_
+    * `vcpkg install sqlite3 --overlay-ports=..\port-repos.txt`
     
-    ```
-    .\experimental-ports\sqlite3
-    C:\custom-ports
-    \\share\team\custom-ports
-    \\share\org\custom-ports
-    ```
-    *Relative paths inside this file are resolved relatively to the file's location. In this case a `experimental-ports` directory should exist at the same level as the `port-repos.txt` file.*
+      _port-repos.txt_
+      
+      ```
+      .\experimental-ports\sqlite3
+      C:\custom-ports
+      \\share\team\custom-ports
+      \\share\org\custom-ports
+      ```
+      *Relative paths inside this file are resolved relatively to the file's location. In this case a `experimental-ports`   directory should exist at the same level as the `port-repos.txt` file.*
 
 _NOTE: It is not the goal of this document to discuss library versioning or project dependency management solutions, which require the ability to install multiple versions of a same library side-by-side._ 
 

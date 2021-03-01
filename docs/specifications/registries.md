@@ -50,9 +50,9 @@ There are many reasons to want custom registries; however, the most important re
 * Legal requirements – a company like Microsoft or Google
   needs the ability to strictly control the code that goes into their products,
   making certain that they are following the licenses strictly.
-  * There have been examples in the past where a library which is licensed under certain terms contains code
-    which is not legally allowed to be licensed under those terms (see [this example][legal-example],
-    where a person tried to merge Microsoft-owned, Apache-licensed code into the GPL-licensed libstdc++).
+    * There have been examples in the past where a library which is licensed under certain terms contains code
+      which is not legally allowed to be licensed under those terms (see [this example][legal-example],
+      where a person tried to merge Microsoft-owned, Apache-licensed code into the GPL-licensed libstdc++).
 * Technical requirements – a company may wish to run their own tests on the packages they ship,
   such as [fuzzing].
 * Other requirements – an organization may wish to strictly control its dependencies for a myriad of other reasons.
@@ -112,18 +112,20 @@ as of now the only properties that can live in that object will be
 these.
 
 A `<registry-implementation>` is an object matching one of the following:
+
 * `<registry-implementation.builtin>`:
-  * `"kind"`: The string `"builtin"`
+    * `"kind"`: The string `"builtin"`
 * `<registry-implementation.directory>`:
-  * `"kind"`: The string `"directory"`
-  * `"path"`: A path
+    * `"kind"`: The string `"directory"`
+    * `"path"`: A path
 * `<registry-implementation.git>`:
-  * `"kind"`: The string `"git"`
-  * `"repository"`: A URI
-  * Optionally, `"path"`: An absolute path into the git repository
-  * Optionally, `"ref"`: A git reference
+    * `"kind"`: The string `"git"`
+    * `"repository"`: A URI
+    * Optionally, `"path"`: An absolute path into the git repository
+    * Optionally, `"ref"`: A git reference
 
 A `<registry>` is a `<registry-implementation>` object, plus the following properties:
+
 * Optionally, `"scopes"`: An array of `<package-name>`s
 * Optionally, `"packages"`: An array of `<package-name>`s
 

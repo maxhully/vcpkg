@@ -42,6 +42,7 @@ along with versioning and feature metadata, so that we do not have to check out 
 to get at that information.
 
 Each database entry file must be a top-level array of port version objects, which contain the following entries:
+
 * A version field: `"version-string"`, `"version"`, etc. Same as in the manifest.
 * Optionally, `"port-version"`: Same as in the manifest.
 
@@ -52,8 +53,8 @@ And also contain a description of where to find the build files for this port; t
 * `"path"`: A path describing where to find the build files.
   The first entry in this path should be `$`, which means "this path starts at the root of the registry".
   No other kinds of paths are allowed.
-  * For example: `$/foo/bar` gives you `foo/bar` underneath the folder containing the `port_versions` directory.
-  * `/foo/bar` and `foo/bar` are both disallowed.
+    * For example: `$/foo/bar` gives you `foo/bar` underneath the folder containing the `port_versions` directory.
+    * `/foo/bar` and `foo/bar` are both disallowed.
 
 Using a `"git-tree"` as a backend in a non-git registry, and using a `"path"` in a git registry,
 is not permitted. Future extensions may include things like remote archives or git repositories,
@@ -363,23 +364,26 @@ $ git push
 The `vcpkg-configuration.json` file from the [first registries RFC](registries.md)
 is still the same, except that the registries have a slightly different layout.
 A `<configuration>` is still an object with the following fields:
+
 * Optionally, `"default-registry"`: A `<registry-implementation>` or `null`
 * Optionally, `"registries"`: An array of `<registry>`s
 
 Additionally, `<registry>` is still the same;
 a `<registry-implementation>` object, plus the following properties:
+
 * Optionally, `"baseline"`: A named baseline. Defaults to `"default"`.
 * Optionally, `"packages"`: An array of `<package-name>`s
 
 however, `<registry-implementation>`s are now slightly different:
+
 * `<registry-implementation.builtin>`:
-  * `"kind"`: The string `"builtin"`
+    * `"kind"`: The string `"builtin"`
 * `<registry-implementation.filesystem>`:
-  * `"kind"`: The string `"filesystem"`
-  * `"path"`: A path
+    * `"kind"`: The string `"filesystem"`
+    * `"path"`: A path
 * `<registry-implementation.git>`:
-  * `"kind"`: The string `"git"`
-  * `"repository"`: A URI
+    * `"kind"`: The string `"git"`
+   * `"repository"`: A URI
 
 The `"packages"` field of distinct registries must be disjoint,
 and each `<registry>` must have at the `"packages"` property,

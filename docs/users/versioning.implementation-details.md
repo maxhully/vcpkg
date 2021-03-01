@@ -16,6 +16,7 @@ Vcpkg uses a minimal selection approach to versioning, inspired by the one [used
 The minimal selection principle, however, stays the same. Given a set of constraints, vcpkg will use the "oldest" possible versions of packages that can satisfy all the constraints.
  
 Using a minimum version approach has the following advantages:
+
 * Is predictable and easy to understand.
 * User controls when upgrades happen, as in, no upgrades are performed automatically when a new version is released.
 * Avoids using a SAT solver.
@@ -47,6 +48,7 @@ And the following manifest:
 ```
 
 After accounting for transitive dependencies we have the following set of constraints:
+
 * A >= 1.1
     * B >= 1.0
     * C >= 3.0
@@ -88,10 +90,10 @@ To compute an installation plan, vcpkg follows roughly these steps:
             * Otherwise: 
                 * Keep the previous selection.
 * Review the plan:
-  * If there are no conflicts
-    * Install the selected packages
-  * Otherwise:
-    * Report the conflicts to the user
+    * If there are no conflicts
+        * Install the selected packages
+    * Otherwise:
+        * Report the conflicts to the user
 
 ## Acquiring port versions
 Although the concept of package versions has always been present in vcpkg, the concept of version constraints has been not.

@@ -19,14 +19,14 @@ We choose JSON for five main reasons:
 
 * Everybody knows JSON, and if one doesn't, it's really easy to learn
 * Every tool supports JSON in the standard library, or in a commonly used support library
-  * This means writing tooling should be trivial in any language one is comfortable with
-  * Most configuration formats don't have a COBOL implementation 😉
+    * This means writing tooling should be trivial in any language one is comfortable with
+    * Most configuration formats don't have a COBOL implementation 😉
 * Specified in an international standard
-  * There is _one_ right way to parse JSON
-  * There are no ambiguities of what the parse tree _should_ be
+    * There is _one_ right way to parse JSON
+    * There are no ambiguities of what the parse tree _should_ be
 * Simple and secure
-  * Unlike YAML, for example, there's no weird ACE issues
-  * Easy to write a parser -- important since we can't depend on external libraries
+    * Unlike YAML, for example, there's no weird ACE issues
+    * Easy to write a parser -- important since we can't depend on external libraries
 * Schemas are almost a necessity
 
 Some have suggested allowing comments or commas in our parser; we chose to use JSON proper
@@ -52,9 +52,9 @@ A manifest must be a top-level object, and must have at least:
 
 * `"name"`: a `<package-name>`
 * One (and only one) of the following version fields:
-  * `"version-string"`: A `string`. Has no semantic meaning.
+    * `"version-string"`: A `string`. Has no semantic meaning.
     Equivalent to `CONTROL`'s `Version:` field.
-  * Other version fields will be defined by the Versions RFC
+    * Other version fields will be defined by the Versions RFC
 
 The simplest vcpkg.json looks like this:
 
@@ -66,24 +66,25 @@ The simplest vcpkg.json looks like this:
 ```
 
 Additionally, it may contain the following properties:
+
 * `"port-version"`: A non-negative integer. If this field doesn't exist, it's assumed to be `0`.
-  * Note that this is a change from existing CONTROL files, where versions were a part of the version string
+    * Note that this is a change from existing CONTROL files, where versions were a part of the version string
 * `"maintainers"`: An array of `string`s which contain the authors of a package
-  * `"maintainers": [ "Nicole Mazzuca <nicole@example.com>", "שלום עליכם <shalom@example.com>" ]`
+    * `"maintainers": [ "Nicole Mazzuca <nicole@example.com>", "שלום עליכם <shalom@example.com>" ]`
 * `"description"`: A string or array of strings containing the description of a package
-  * `"description": "mypackage is a package of mine"`
+    * `"description": "mypackage is a package of mine"`
 * `"homepage"`: A url which points to the homepage of a package
-  * `"homepage": "https://github.com/strega-nil/mypackage"`
+    * `"homepage": "https://github.com/strega-nil/mypackage"`
 * `"documentation"`: A url which points to the documentation of a package
-  * `"documentation": "https://readthedocs.io/strega-nil/mypackage"`
+    * `"documentation": "https://readthedocs.io/strega-nil/mypackage"`
 * `"license"`: A `<license-string>`
-  * `"license": "MIT"`
+    * `"license": "MIT"`
 * `"dependencies"`: An array of `<dependency>`s
 * `"dev-dependencies"`: An array of `<dependency>`s which are required only for developers (testing and the like)
 * `"features"`: An array of `<feature>`s that the package supports
 * `"default-features"`: An array of `<identifier>`s that correspond to features, which will be used by default.
 * `"supports"`: A `<platform-expression>`
-  * `"supports": "windows & !arm"`
+    * `"supports": "windows & !arm"`
 
 Any properties which are not listed, and which do not start with a `$`,
 will be warned against and are reserved for future use.
@@ -129,14 +130,14 @@ anyone. The latter will be the mode only when the user either:
 * Passes `--manifest-root-dir=<directory>` (initially, `x-manifest-root-dir`)
 * Runs `vcpkg` in a directory that contains a file named `vcpkg.json`, or in a
   child directory of a directory containing `vcpkg.json`.
-  * For this, initially vcpkg will warn that the behavior will change in the
-    future, and simply run in classic mode, unless the feature flag `manifests` is
-    passed via:
-    * The environment variable `VCPKG_FEATURE_FLAGS`
-    * The option `--feature-flags`
-      * (e.g., `--feature-flags=binarycaching,manifests`)
-    * If someone wants to use classic mode and silence the warning, they can add the
-      `-manifests` feature flag to disable the mode.
+    * For this, initially vcpkg will warn that the behavior will change in the
+      future, and simply run in classic mode, unless the feature flag `manifests` is
+      passed via:
+        * The environment variable `VCPKG_FEATURE_FLAGS`
+        * The option `--feature-flags`
+        * (e.g., `--feature-flags=binarycaching,manifests`)
+        * If someone wants to use classic mode and silence the warning, they can add the
+          `-manifests` feature flag to disable the mode.
 
 When in "manifest" mode, the `installed` directory will be changed to
 `<manifest-root>/vcpkg_installed` (name up for bikeshedding).
@@ -252,47 +253,47 @@ Hello, world!
 ## Definitions
 
 * `<identifier>`: A `string` which:
-  * Is entirely ASCII
-  * Contains only lowercase alphabetic characters, digits, and hyphen-minus
-  * Does not have multiple consecutive hyphens
-  * Does not begin nor end with a hyphen
-  * Is not a Windows filesystem reserved name
-  * Is not a vcpkg reserved name: "default" or "core".
-  * In other words, it must follow the regex `[a-z0-9]+(-[a-z0-9]+)*`, and must not be any of:
-    * `{ prn, aux, nul, con, lpt[1-9], com[1-9], core, default }`
+    * Is entirely ASCII
+    * Contains only lowercase alphabetic characters, digits, and hyphen-minus
+    * Does not have multiple consecutive hyphens
+    * Does not begin nor end with a hyphen
+    * Is not a Windows filesystem reserved name
+    * Is not a vcpkg reserved name: "default" or "core".
+    * In other words, it must follow the regex `[a-z0-9]+(-[a-z0-9]+)*`, and must not be any of:
+        * `{ prn, aux, nul, con, lpt[1-9], com[1-9], core, default }`
 * `<package-name>`: A `string` consisting of a non-zero number of `<identifier>`s, separated by `.`.
-  * `a.b.c` is valid
-  * `a` is valid
-  * `a/b` is not valid
-  * `Boost.Beast` is not valid, but `boost.beast` is
+    * `a.b.c` is valid
+    * `a` is valid
+    * `a/b` is not valid
+    * `Boost.Beast` is not valid, but `boost.beast` is
 * `<dependency>`: Either a `<package-name>`, or an object:
-  * A dependency always contains the following:
-    * `"name"`: A `<package-name>`
-    * Optionally, `"features"`: an array of `<identifier>`s corresponding to features in the package.
-    * Optionally, `"default-features"`: a `boolean`. If this is false, then don't use the default features of the package; equivalent to core in existing CONTROL files. If this is true, do the default thing of including the default features.
-    * Optionally, `"platform"`: a `<platform-expression>`
-  * `<dependency.port>`: No extra fields are required.
+    * A dependency always contains the following:
+        * `"name"`: A `<package-name>`
+        * Optionally, `"features"`: an array of `<identifier>`s corresponding to features in the package.
+        * Optionally, `"default-features"`: a `boolean`. If this is false, then don't use the default features of the package; equivalent to core in existing CONTROL files. If this is true, do the default thing of including the default features.
+        * Optionally, `"platform"`: a `<platform-expression>`
+    * `<dependency.port>`: No extra fields are required.
 * `<license-string>`: An SPDX license expression at version 3.9.
 * `<platform-expression>`: A specification of a set of platforms; used in platform-specific dependencies and supports fields. A string that is parsed as follows:
-  * `<platform-expression>`:
-    * `<platform-expression.not>`
+    * `<platform-expression>`:
+        * `<platform-expression.not>`
+        * `<platform-expression.and>`
+        * `<platform-expression.or>`
+    * `<platform-expression.simple>`:
+        * `( <platform-expression> )`
+        * `<platform-expression.identifier>`
+    * `<platform-expression.identifier>`:
+        * regex: `/^[a-z0-9]+$/`
+    * `<platform-expression.not>`:
+        * `<platform-expression.simple>`
+        * `! <platform-expression.simple>`
     * `<platform-expression.and>`
+        * `<platform-expression.not>`
+        * `<platform-expression.and> & <platform-expression.not>`
     * `<platform-expression.or>`
-  * `<platform-expression.simple>`:
-    * `( <platform-expression> )`
-    * `<platform-expression.identifier>`
-  * `<platform-expression.identifier>`:
-    * regex: `/^[a-z0-9]+$/`
-  * `<platform-expression.not>`:
-    * `<platform-expression.simple>`
-    * `! <platform-expression.simple>`
-  * `<platform-expression.and>`
-    * `<platform-expression.not>`
-    * `<platform-expression.and> & <platform-expression.not>`
-  * `<platform-expression.or>`
-    * `<platform-expression.not>`
-    * `<platform-expression.or> | <platform-expression.not>`
+        * `<platform-expression.not>`
+        * `<platform-expression.or> | <platform-expression.not>`
 * `<feature>`: An object containing the following:
-  * `"name"`: An `<identifier>`, the name of the feature
-  * `"description"`: A `string` or array of `string`s, the description of the feature
-  * Optionally, `"dependencies"`: An array of `<dependency>`s, the dependencies used by this feature
+    * `"name"`: An `<identifier>`, the name of the feature
+    * `"description"`: A `string` or array of `string`s, the description of the feature
+    * Optionally, `"dependencies"`: An array of `<dependency>`s, the dependencies used by this feature

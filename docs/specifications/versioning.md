@@ -39,6 +39,7 @@ Example: A manifeset (`vcpkg.json`) using versioning features.
 ```
 
 The example above shows some new manifest properties:
+
 * `"version"`: Declares a version using a dot-separated versioning scheme (`1.0.0`).
 * `"version>="`: Declares a minimum version constraint on package `zlib`.
 * `"$x-default-baseline"`: Declares a baseline version for all packages.
@@ -47,6 +48,7 @@ All these new features are described in more detail in this document.
 
 ## 2 Specifying package versions
 Through the years, C++ software authors have adopted multiple versioning schemes and practices that sometimes conflict between each other. On vcpkg, the most recurrent versioning schemes found are:
+
 *	Semantic versions
 *	Dates
 *	Repository commits
@@ -65,6 +67,7 @@ Packages can also include the port version as part of a version constraint by us
 An integer value that increases each time a vcpkg-specific change is made to the port.  
 
 The rules for port versions are:
+
 * Start at 0 for the original version of the port,
 * increase by 1 each time a vcpkg-specific change is made to the port that does not increase the version of the package,
 * and reset to 0 each time the version of the package is updated.
@@ -212,6 +215,7 @@ The use of `“$x-default-baseline”` is temporary and will very likely change 
 Accepts a Git commit ID. Vcpkg will try to find a baseline file in the given commit ID and use that to set the baseline versions (lower bound versions) of all declared dependencies.
 
 When resolving version constraints for a package, vcpkg will look for a baseline version:
+
 * First by looking at the baseline file in the given commit ID.
 * If the given commit ID does not contain a baseline file, vcpkg will fallback to use the local baseline file instead.
 * If there’s no local baseline file, vcpkg will use the version currently available in the ports directory.
@@ -234,6 +238,7 @@ Baselines can be used without any other version constraints to obtain behavior c
 A minimum version requirement puts a lower boundary on the versions that can be used to satisfy a dependency. This means that any version that is newer than the requirement is valid (including major version changes).
 
 Vcpkg will use the oldest identified version that can satisfy all the version requirements in a build graph. Using a minimum version approach has the following advantages:
+
 * Is predictable and easy to understand.
 * User controls when upgrades happen, as in, no upgrades are performed automatically when a new version is released.
 * Avoids using a SAT solver.
@@ -298,21 +303,21 @@ Vcpkg roughly follows the steps below to compute an installation plan, the insta
 * Recursively add transitive constraints to the plan.
 * Each time a constraint is added for a package, also add it’s baseline version as a minimum constraint.
 * Each time a constraint is added:
-  * If an override exists for the package, select the version in the override.
-  * Otherwise:
-    * If there is no previous version selected. 
-      * Select the minimal version that satisfies the constraint.
-    * If there is a previous version selected:
-      * If the versioning scheme of the new constraint does not match that of the previously selected version:
-        * Add a version conflict.
-      * If the constraint’s version is not comparable to the previously selected version. For example, comparing “version-string: apple” to “version-string: orange”:
-        * Add a version conflict.
-    * If the constraints version is higher than the previously selected version:
-      * Select the highest version.
-      * Otherwise, keep the previous selection.
+    * If an override exists for the package, select the version in the override.
+    * Otherwise:
+        * If there is no previous version selected. 
+            * Select the minimal version that satisfies the constraint.
+        * If there is a previous version selected:
+            * If the versioning scheme of the new constraint does not match that of the previously selected version:
+                * Add a version conflict.
+            * If the constraint’s version is not comparable to the previously selected version. For example, comparing “version-string: apple” to “version-string: orange”:
+                * Add a version conflict.
+        * If the constraints version is higher than the previously selected version:
+            * Select the highest version.
+            * Otherwise, keep the previous selection.
 *	Review the plan:
-  * If there are no conflicts, install the selected packages.
-  * Otherwise, report the conflicts to the user.
+    * If there are no conflicts, install the selected packages.
+    * Otherwise, report the conflicts to the user.
 
 ### 5.2 Acquiring port versions
 Although the concept of package versions has always been present in vcpkg, the concept of version constraints has been not. 
